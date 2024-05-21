@@ -6,9 +6,9 @@
 from base_caching import BaseCaching
 
 
-class LRUCache(BaseCaching):
+class MRUCache(BaseCaching):
     """
-    basic LRU caching class
+    basic MRU caching class
     """
     CacheLog = []
 
