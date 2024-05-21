@@ -12,11 +12,13 @@ class LRUCache(BaseCaching):
     """
     CacheLog = {}
 
-    def UpdateLog(self, key):
+    def UpdateLog(self, key, value):
         if key not in self.CacheLog:
             self.CacheLog[key] = 0
 
         for k in self.CacheLog.keys():
+            if self.cache_data[k] == value:
+                continue
             self.CacheLog[k] += 1
 
     def GetLRU(self):
@@ -29,16 +31,14 @@ class LRUCache(BaseCaching):
         Add an item in the cache
         """
         if key is not None or item is not None:
-    #        if key in self.cache_data:
-    #            del self.cache_data[key]
-
             self.cache_data[key] = item
-            self.UpdateLog(key)
+            self.UpdateLog(key, item)
 
             if len(self.cache_data) > BaseCaching.MAX_ITEMS:
                 LRUKey = self.GetLRU()
                 print("DISCARD: {}".format(LRUKey))
                 del self.cache_data[LRUKey]
+                del self.CacheLog[LRUKey]
 
     def get(self, key):
         """
