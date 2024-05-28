@@ -2,7 +2,7 @@
 
 """simple flask webapp"""
 
-from flask_babel import Babel
+from flask_babel import Babel, gettext
 from flask import Flask, render_template, request
 
 
@@ -20,9 +20,12 @@ babel = Babel(myapp)
 
 @babel.localeselector
 def get_locale() -> str:
-    """Retrieves the locale for a web page.
-    """
-    return request.accept_languages.best_match(myapp.config["LANGUAGES"])
+    """set locale en"""
+    locale = request.args.get("locale")
+    lang = ["en", "fr"]
+    if locale in lang:
+        return locale
+    return request.accept_languages.best_match(myapp.config['LANGUAGES'])
 
 
 @myapp.route("/")
@@ -30,7 +33,11 @@ def welcome() -> str:
     """
     render hello world
     """
-    return render_template("3-index.html")
+    home_title = gettext("home_title")
+    home_header = gettext("home_header")
+    return render_template('4-index.html',
+                           home_title=home_title,
+                           home_header=home_header)
 
 
 if __name__ == '__main__':
