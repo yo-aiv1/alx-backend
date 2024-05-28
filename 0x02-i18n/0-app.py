@@ -2,12 +2,8 @@
 
 """simple flask webapp"""
 
-from flask import Flask, render_template
 from flask_babel import Babel
-
-
-myapp = Flask(__name__)
-babel = Babel(myapp)
+from flask import Flask, render_template
 
 
 class Config(object):
@@ -17,7 +13,9 @@ class Config(object):
     BABEL_DEFAULT_TIMEZONE = 'UTC'
 
 
+myapp = Flask(__name__)
 myapp.config.from_object(Config)
+babel = Babel(myapp)
 
 
 @myapp.route("/")
