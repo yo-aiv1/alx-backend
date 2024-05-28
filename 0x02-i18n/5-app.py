@@ -43,10 +43,13 @@ def before_request() -> None:
 
 
 @babel.localeselector
-def get_locale():
+def get_locale() -> str:
     """set locale en"""
     locale = request.args.get("locale")
     lang = ["en", "fr"]
+    loc = g.user
+    if loc.get("locale") in lang:
+        return loc.get("locale")
     if locale in lang:
         return locale
     return request.accept_languages.best_match(myapp.config['LANGUAGES'])
